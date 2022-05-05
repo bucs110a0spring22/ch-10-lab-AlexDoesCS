@@ -39,3 +39,7 @@ class Hero(pygame.sprite.Sprite):
         else:
             print("successful attack")
         return True
+    # When the player loses this function will print this message
+    def loser(self, lose):
+      print("Maybe you'll get it this time")
+      return True 

@@ -3,8 +3,7 @@ import pygame
 import random
 from src import hero
 from src import enemy
-
-
+from src import death
 class Controller:
     def __init__(self, width=640, height=480):
         pygame.init()
@@ -24,13 +23,21 @@ class Controller:
             y = random.randrange(100, 400)
             self.enemies.add(enemy.Enemy("Boogie", x, y, 'assets/enemy.png'))
         self.hero = hero.Hero("Conan", 50, 80, "assets/hero.png")
-        self.all_sprites = pygame.sprite.Group((self.hero,) + tuple(self.enemies))
+      #Adds Skull Icon
+        self.skulldeath = pygame.sprite.Group()
+        x = random.randrange(100, 400)
+        y = random.randrange(100, 300)
+        self.skulldeath.add(death.Death("Lose", x, y, 'assets/death.png'))
+        self.all_sprites = pygame.sprite.Group((self.hero,) + tuple(self.enemies) + tuple(self.skulldeath))
         self.state = "GAME"
 
     def mainLoop(self):
         while True:
             if(self.state == "GAME"):
                 self.gameLoop()
+            elif (self.state == "YOU LOST!"):
+                self.autolose()
+            #The function now will autolose and display this message
             elif(self.state == "GAMEOVER"):
                 self.gameOver()
 
@@ -59,6 +66,18 @@ class Controller:
                     else:
                         self.background.fill((250, 0, 0))
                         self.enemies.add(e)
+            #loss
+            loss = pygame.sprite.spritecollide(self.hero, self.skulldeath, True)
+            if(loss):
+                for e in loss:
+                    if(self.hero.loser(e)):
+                        e.kill()
+                        self.background.fill((34, 129, 34))
+                    self.state = "YOU LOST!"
+                self.all_sprites.draw(self.screen)
+         
+              
+              
 
             # redraw the entire screen
             self.enemies.update()
@@ -80,3 +99,10 @@ class Controller:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
+    
+    def autolose(self): 
+      #The function prints when Player dies due to the icon
+        myfont = pygame.font.SysFont(None, 30)
+        message = myfont.render("YOU LOST!", True, (0, 0, 0))
+        self.screen.blit(message, (self.width / 2, self.height / 2))
+        pygame.display.flip()

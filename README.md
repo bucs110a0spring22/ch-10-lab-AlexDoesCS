@@ -8,14 +8,14 @@
 Replace anything surrounded by the `< >` symbols._
 
 ## SUMMARY:
- < Provide a short description of your program's functionality. No more than a couple sentences. >
+The original code was to randomly make the enemies walk around the screen by making a function in the enemy class
 #### Unique Feature
- < Describe the unique feature you added >
+I changed a feature to where a skull appears randomly on the screen and if you touch it you instantly lose.
 
 ## GRACE DAYS
-Grace days used for this assignment: < # >
+Grace days used for this assignment: 1/5
 
-Grace days remaining: < # >/5
+Grace days remaining: 0/5
 
 ## KNOWN BUGS AND INCOMPLETE PARTS:
  < What parts of the project you were not able to complete >
